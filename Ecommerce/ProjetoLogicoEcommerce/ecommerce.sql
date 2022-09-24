@@ -10,8 +10,8 @@ CREATE TABLE `Cliente`  (
   `IdCliente Tipo` int NOT NULL,
   PRIMARY KEY (`IdCliente`) USING BTREE,
   INDEX `Nome`(`Nome`) USING BTREE,
-  INDEX `fk_Cliente_Cliente Tipo1_idx`(`IdCliente Tipo`) USING BTREE,
-  CONSTRAINT `fk_Cliente_Cliente Tipo1` FOREIGN KEY (`IdCliente Tipo`) REFERENCES `Cliente Tipo` (`IdCliente Tipo`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  INDEX `fk_Cliente_ClienteTipo1_idx`(`IdCliente Tipo`) USING BTREE,
+  CONSTRAINT `fk_Cliente_ClienteTipo1` FOREIGN KEY (`IdCliente Tipo`) REFERENCES `ClienteTipo` (`IdClienteTipo`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- Insert Cliente
@@ -61,8 +61,8 @@ CREATE TABLE `ClienteEndereco`  (
   `Complemento` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `IdTipo Endereco` int NOT NULL,
   PRIMARY KEY (`IdClienteEndereco`, `IdTipoEndereco`) USING BTREE,
-  INDEX `fk_Cliente Endereco_Tipo Endereco1_idx`(`IdTipoEndereco`) USING BTREE,
-  CONSTRAINT `fk_Cliente Endereco_Tipo Endereco1` FOREIGN KEY (`IdTipoEndereco`) REFERENCES `TipoEndereco` (`IdTipoEndereco`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  INDEX `fk_ClienteEndereco_TipoEndereco1_idx`(`IdTipoEndereco`) USING BTREE,
+  CONSTRAINT `fk_ClienteEndereco_TipoEndereco1` FOREIGN KEY (`IdTipoEndereco`) REFERENCES `TipoEndereco` (`IdTipoEndereco`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- Insert ClienteEndereco
@@ -82,7 +82,7 @@ CREATE TABLE `ClienteFisico`  (
   `Cliente_IdCliente` int NOT NULL,
   PRIMARY KEY (`IdClienteFisico`, `Cliente_IdCliente`) USING BTREE,
   INDEX `fk_Cliente Fisico_Cliente1_idx`(`Cliente_IdCliente`) USING BTREE,
-  CONSTRAINT `fk_Cliente Fisico_Cliente1` FOREIGN KEY (`Cliente_IdCliente`) REFERENCES `Cliente` (`IdCliente`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  CONSTRAINT `fk_ClienteFisico_Cliente1` FOREIGN KEY (`Cliente_IdCliente`) REFERENCES `Cliente` (`IdCliente`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- Insert ClienteFisico
@@ -96,8 +96,8 @@ CREATE TABLE `ClienteJuridico`  (
   `CNPJ` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `Cliente_IdCliente` int NOT NULL,
   PRIMARY KEY (`idCliente Juridico`, `Cliente_idCliente`) USING BTREE,
-  INDEX `fk_Cliente Juridico_Cliente1_idx`(`Cliente_IdCliente`) USING BTREE,
-  CONSTRAINT `fk_Cliente Juridico_Cliente1` FOREIGN KEY (`Cliente_IdCliente`) REFERENCES `Cliente` (`IdCliente`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  INDEX `fk_ClienteJuridico_Cliente1_idx`(`Cliente_IdCliente`) USING BTREE,
+  CONSTRAINT `fk_ClienteJuridico_Cliente1` FOREIGN KEY (`Cliente_IdCliente`) REFERENCES `Cliente` (`IdCliente`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- Insert ClienteJuridico
@@ -124,7 +124,7 @@ CREATE TABLE `Entrega`  (
   `IdStatus Entrega` int NOT NULL,
   PRIMARY KEY (`IdEntrega`) USING BTREE,
   INDEX `fk_Entrega_Status Entrega1_idx`(`IdStatusEntrega`) USING BTREE,
-  CONSTRAINT `fk_Entrega_Status Entrega1` FOREIGN KEY (`idStatus Entrega`) REFERENCES `StatusEntrega` (`IdStatusEntrega`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  CONSTRAINT `fk_Entrega_StatusEntrega1` FOREIGN KEY (`idStatusEntrega`) REFERENCES `StatusEntrega` (`IdStatusEntrega`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- Insert Entrega
@@ -151,7 +151,7 @@ CREATE TABLE `Fornecedor`  (
   `IdFornecedor` int NOT NULL AUTO_INCREMENT,
   `RazaoSocial` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `CNPJ` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  PRIMARY KEY (`idFornecedor`) USING BTREE,
+  PRIMARY KEY (`IdFornecedor`) USING BTREE,
   INDEX `CNPJ`(`CNPJ`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
@@ -219,20 +219,20 @@ CREATE TABLE `CategoriaProduto`  (
   PRIMARY KEY (`IdCategoria`, `IdProduto`) USING BTREE,
   INDEX `fk_Categoria_has_Produto_Produto1_idx`(`IdProduto`) USING BTREE,
   INDEX `fk_Categoria_has_Produto_Categoria1_idx`(`IdCategoria`) USING BTREE,
-  CONSTRAINT `fk_Categoria_has_Produto_Categoria1` FOREIGN KEY (`IdCategoria`) REFERENCES `Categoria` (`IdCategoria`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `fk_Categoria_has_Produto_Produto1` FOREIGN KEY (`IdProduto`) REFERENCES `Produto` (`IdProduto`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  CONSTRAINT `fk_Categoria_has_ProdutoCategoria1` FOREIGN KEY (`IdCategoria`) REFERENCES `Categoria` (`IdCategoria`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `fk_Categoria_has_ProdutoProduto1` FOREIGN KEY (`IdProduto`) REFERENCES `Produto` (`IdProduto`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- Tabela ClienteEndereco
 DROP TABLE IF EXISTS `ClienteEndereco`;
 CREATE TABLE `ClienteEndereco`  (
   `IdCliente` int NOT NULL,
-  `IdCliente Endereco` int NOT NULL,
-  PRIMARY KEY (`IdCliente`, `IdCliente Endereco`) USING BTREE,
-  INDEX `fk_Cliente_has_Cliente Endereco_Cliente Endereco1_idx`(`IdCliente Endereco`) USING BTREE,
-  INDEX `fk_Cliente_has_Cliente Endereco_Cliente1_idx`(`IdCliente`) USING BTREE,
-  CONSTRAINT `fk_Cliente_has_Cliente Endereco_Cliente Endereco1` FOREIGN KEY (`IdClienteEndereco`) REFERENCES `ClienteEndereco` (`IdClienteEndereco`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `fk_Cliente_has_Cliente Endereco_Cliente1` FOREIGN KEY (`IdCliente`) REFERENCES `Cliente` (`IdCliente`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  `IdClienteEndereco` int NOT NULL,
+  PRIMARY KEY (`IdCliente`, `IdClienteEndereco`) USING BTREE,
+  INDEX `fk_Cliente_has_Cliente EnderecoCliente Endereco1_idx`(`IdCliente Endereco`) USING BTREE,
+  INDEX `fk_Cliente_has_Cliente EnderecoCliente1_idx`(`IdCliente`) USING BTREE,
+  CONSTRAINT `fk_Cliente_has_Cliente Endereco_ClienteEndereco1` FOREIGN KEY (`IdClienteEndereco`) REFERENCES `ClienteEndereco` (`IdClienteEndereco`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `fk_Cliente_has_Cliente EnderecoCliente1` FOREIGN KEY (`IdCliente`) REFERENCES `Cliente` (`IdCliente`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- Insert ClienteEndereco
@@ -247,9 +247,9 @@ CREATE TABLE `FornecedorProduto`  (
   `IdProduto` int NOT NULL,
   PRIMARY KEY (`IdFornecedor`, `IdProduto`) USING BTREE,
   INDEX `fk_Fornecedor_has_Produto_Produto1_idx`(`IdProduto`) USING BTREE,
-  INDEX `fk_Fornecedor_has_Produto_Fornecedor1_idx`(`IdFornecedor`) USING BTREE,
-  CONSTRAINT `fk_Fornecedor_has_Produto_Fornecedor1` FOREIGN KEY (`IdFornecedor`) REFERENCES `Fornecedor` (`IdFornecedor`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `fk_Fornecedor_has_Produto_Produto1` FOREIGN KEY (`idProduto`) REFERENCES `Produto` (`IdProduto`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  INDEX `fk_Fornecedor_has_ProdutoFornecedor1_idx`(`IdFornecedor`) USING BTREE,
+  CONSTRAINT `fk_Fornecedor_has_ProdutoFornecedor1` FOREIGN KEY (`IdFornecedor`) REFERENCES `Fornecedor` (`IdFornecedor`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `fk_Fornecedor_has_ProdutoProduto1` FOREIGN KEY (`idProduto`) REFERENCES `Produto` (`IdProduto`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- Insert FornecedorProduto
@@ -264,10 +264,10 @@ CREATE TABLE `PedidoProduto`  (
   `Quantidade` int NOT NULL,
   PRIMARY KEY (`IdPedido`, `IdProduto`) USING BTREE,
   INDEX `fk_Pedido_has_Produto_Produto1_idx`(`IdProduto`) USING BTREE,
-  INDEX `fk_Pedido_has_Produto_Pedido1_idx`(`IdPedido`) USING BTREE,
+  INDEX `fk_Pedido_has_ProdutoPedido1_idx`(`IdPedido`) USING BTREE,
   INDEX `Quantidade`(`Quantidade`) USING BTREE,
-  CONSTRAINT `fk_Pedido_has_Produto_Pedido1` FOREIGN KEY (`IdPedido`) REFERENCES `Pedido` (`IdPedido`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `fk_Pedido_has_Produto_Produto1` FOREIGN KEY (`IdProduto`) REFERENCES `Produto` (`IdProduto`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  CONSTRAINT `fk_Pedido_has_ProdutoPedido1` FOREIGN KEY (`IdPedido`) REFERENCES `Pedido` (`IdPedido`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `fk_Pedido_has_ProdutoProduto1` FOREIGN KEY (`IdProduto`) REFERENCES `Produto` (`IdProduto`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- Insert PedidoProduto
@@ -283,10 +283,10 @@ CREATE TABLE `ProdutoEstoque`  (
   `Quantidade` int NOT NULL,
   PRIMARY KEY (`IdProduto`, `IdEstoque`) USING BTREE,
   INDEX `fk_Produto_has_Estoque_Estoque1_idx`(`IdEstoque`) USING BTREE,
-  INDEX `fk_Produto_has_Estoque_Produto1_idx`(`IdProduto`) USING BTREE,
+  INDEX `fk_Produto_has_EstoqueProduto1_idx`(`IdProduto`) USING BTREE,
   INDEX `Quantidade`(`Quantidade`) USING BTREE,
   CONSTRAINT `fk_Produto_has_Estoque_Estoque1` FOREIGN KEY (`IdEstoque`) REFERENCES `Estoque` (`IdEstoque`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `fk_Produto_has_Estoque_Produto1` FOREIGN KEY (`IdProduto`) REFERENCES `Produto` (`IdProduto`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  CONSTRAINT `fk_Produto_has_EstoqueProduto1` FOREIGN KEY (`IdProduto`) REFERENCES `Produto` (`IdProduto`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- Insert ProdutoEstoque
@@ -301,10 +301,10 @@ CREATE TABLE `TerceiroVendedorProduto`  (
   `Quantidade` int NOT NULL,
   PRIMARY KEY (`IdTerceiroVendedor`, `IdProduto`) USING BTREE,
   INDEX `fk_Terceiro_Vendedor_has_Produto_Produto1_idx`(`IdProduto`) USING BTREE,
-  INDEX `fk_Terceiro_Vendedor_has_Produto_Terceiro_Vendedor1_idx`(`IdTerceiroVendedor`) USING BTREE,
+  INDEX `fk_Terceiro_Vendedor_has_Produto_TerceiroVendedor1_idx`(`IdTerceiroVendedor`) USING BTREE,
   INDEX `Quantidade`(`Quantidade`) USING BTREE,
   CONSTRAINT `fk_Terceiro_Vendedor_has_Produto_Produto1` FOREIGN KEY (`IdProduto`) REFERENCES `Produto` (`IdProduto`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `fk_Terceiro_Vendedor_has_Produto_Terceiro_Vendedor1` FOREIGN KEY (`IdTerceiroVendedor`) REFERENCES `TerceiroVendedor` (`IdTerceiroVendedor`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  CONSTRAINT `fk_Terceiro_Vendedor_has_ProdutoTerceiro_Vendedor1` FOREIGN KEY (`IdTerceiroVendedor`) REFERENCES `TerceiroVendedor` (`IdTerceiroVendedor`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- Insert TerceiroVendedorProduto
@@ -312,7 +312,7 @@ INSERT INTO `TerceiroVendedorProduto` VALUES (1, 3, 30);
 
 -- Tabela StatusEntrega
 DROP TABLE IF EXISTS `StatusEntrega`;
-CREATE TABLE `Status Entrega`  (
+CREATE TABLE `StatusEntrega`  (
   `IdStatusEntrega` int NOT NULL AUTO_INCREMENT,
   `Status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`IdStatusEntrega`) USING BTREE
